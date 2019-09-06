@@ -25,6 +25,7 @@
         struct Input
         {
             float2 uv_MainTex;
+			float3 worldPos; // 号称会自动填充这个值？
         };
 
         UNITY_INSTANCING_BUFFER_START(Props)
