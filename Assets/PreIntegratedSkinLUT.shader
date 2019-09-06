@@ -37,15 +37,15 @@
             half wrappedNdL = (dot(gi.light.dir, s.Normal) * 0.5 + 0.5);
 
             half4 scatteringColor = tex2D(_ScatteringLUT, float2(wrappedNdL, 1.0 / s.Alpha));
-            lighting.rgb += (1 - wrappedNdL) * gi.light.color * s.Albedo * scatteringColor.rgb * 2;
+            lighting.rgb +=  gi.light.color * s.Albedo * scatteringColor.rgb ;
             return lighting;
         }
 
         inline void LightingStandardWithPreIntegratedSkin_GI(inout SurfaceOutputStandard s, UnityGIInput data, inout UnityGI gi)
         {
-            half shadow = data.atten;
+            //half shadow = data.atten;
             LightingStandard_GI(s, data, gi);
-            gi.light.ndotl = shadow;
+            //gi.light.ndotl = shadow;
         }
 
         void surf (Input IN, inout SurfaceOutputStandard o)
