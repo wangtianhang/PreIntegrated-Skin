@@ -61,16 +61,22 @@
             half4 lighting = LightingStandard(tmp, viewDir, gi);
             half wrappedNdL = (dot(gi.light.dir, s.Normal) * 0.5 + 0.5);
 			
-			float curvity = length ( fwidth (s.Normal ) ) / length ( fwidth (s.worldPos ) );
+			float tune = 0.5;
+			float len = length ( fwidth (s.worldPos ) );
+			len = clamp(len, 0.01, 100);
+			float curvity = length ( fwidth (s.Normal ) ) / len * tune;
 			curvity = saturate(curvity);
 
-            half4 scatteringColor = tex2D(_ScatteringLUT, float2(wrappedNdL, 1));
+            half4 scatteringColor = tex2D(_ScatteringLUT, float2(wrappedNdL, curvity));
             lighting.rgb +=  gi.light.color * s.Albedo * scatteringColor.rgb ;
 			
 			//if(curvity >= 1)
 			//{
-			//	return half4(s.worldPos, 1);
+			//	return half4(1, 1, 1, 1);
 			//}
+			//float len = length(fwidth(s.worldPos) * 10);
+			//return half4(fwidth(s.worldPos) * 10, 1);
+			//return half4(len, len, len, 1);
             return lighting;
         }
 
